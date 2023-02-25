@@ -1,0 +1,44 @@
+// Get the form and input elements
+const form = document.querySelector('form');
+const input = document.querySelector('#todo-input');
+
+// Get the list element
+const list = document.querySelector('#todo-list');
+
+// Initialize the todos array
+let todos = [];
+
+// Load the saved todos from local storage
+if (localStorage.getItem('todos')) {
+  todos = JSON.parse(localStorage.getItem('todos'));
+  renderTodos();
+}
+
+// Listen for form submit event
+form.addEventListener('submit', e => {
+  e.preventDefault(); // Prevent form from submitting
+
+  // Get the todo text from the input element
+  const todoText = input.value.trim();
+
+  // Add the new todo to the array
+  todos.push({
+    id: Date.now(),
+    text: todoText,
+    completed: false
+  });
+
+  // Save the todos to local storage
+  localStorage.setItem('todos', JSON.stringify(todos));
+
+  // Clear the input element
+  input.value = '';
+
+  // Render the todos
+  renderTodos();
+});
+
+// Listen for click events on the list element
+list.addEventListener('click', e => {
+  if (e.target.matches('button')) {
+    // Get the
